@@ -90,7 +90,7 @@
 #endif
 
 #ifdef CPPLOG_THREADING
-#include <boost/thread.hpp>
+#include <thread>
 #include "concurrent_queue.hpp"
 #endif
 
@@ -984,7 +984,7 @@ namespace cpplog
         BaseLogger*                 m_forwardTo;
         concurrent_queue<LogData*>  m_queue;
 
-        boost::thread               m_backgroundThread;
+        std::thread               m_backgroundThread;
         LogData*                    m_dummyItem;
 
         void backgroundFunction()
@@ -1010,7 +1010,7 @@ namespace cpplog
             m_dummyItem = new LogData(LL_TRACE);
 
             // And create background thread.
-            m_backgroundThread = boost::thread(&BackgroundLogger::backgroundFunction, this);
+            m_backgroundThread = std::thread(&BackgroundLogger::backgroundFunction, this);
         }
 
     public:
